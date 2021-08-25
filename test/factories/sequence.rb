@@ -1,5 +1,5 @@
 FactoryBot.define do
-  sequence :string, aliases: [:first_name, :last_name, :password, :avatar] do |n|
+  sequence :string, aliases: [:first_name, :last_name, :password, :avatar, :name, :description] do |n|
     "string#{n}"
   end
 
@@ -7,11 +7,7 @@ FactoryBot.define do
     "person#{n}@example.com"
   end
 
-  sequence :task, aliases: [:name, :description] do |n|
-    "string#{n}"
-  end
-
   sequence :expired_at do
-    (Time.now + 3.days).strftime('%Y-%m-%d')
+    Date.today.next_day(3).strftime('%Y-%m-%d')
   end
 end
