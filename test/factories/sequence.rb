@@ -8,6 +8,6 @@ FactoryBot.define do
   end
 
   sequence :expired_at do
-    Date.today.next_day(3).strftime('%Y-%m-%d')
+    Date.today.next_day(3).to_date
   end
 end
