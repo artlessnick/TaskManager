@@ -11,6 +11,7 @@ import ColumnHeader from 'components/ColumnHeader';
 import TasksRepository from 'repositories/TasksRepository';
 import useStyles from './useStyles';
 import AddPopup from '../AddPopup/AddPopup';
+import EditPopup from '../EditPopup/EditPopup';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -38,9 +39,11 @@ const TaskBoard = () => {
   const MODES = {
     ADD: 'add',
     NONE: 'none',
+    EDIT: 'edit',
   };
 
   const [mode, setMode] = useState(MODES.NONE);
+  const [openedTaskId, setOpenedTaskId] = useState(null);
 
   const loadColumn = (state, page, perPage) =>
     TasksRepository.index({
@@ -102,13 +105,39 @@ const TaskBoard = () => {
     setMode(MODES.ADD);
   };
 
+  const handleOpenEditPopup = (task) => {
+    setOpenedTaskId(task.id);
+    setMode(MODES.EDIT);
+  };
+
   const handleClose = () => {
     setMode(MODES.NONE);
+    setOpenedTaskId(null);
   };
 
   const handleTaskCreate = (params) => {
     const attributes = TaskForm.attributesToSubmit(params);
     return TasksRepository.create(attributes).then(({ data: { task } }) => {
+      loadColumnInitial(task.state);
+      handleClose();
+    });
+  };
+
+  const loadTask = (id) => TasksRepository.show(id).then(({ data: { task } }) => task);
+
+  const handleTaskUpdate = (task) => {
+    const attributes = TaskForm.attributesToSubmit(task);
+
+    return TasksRepository.update(task.id, attributes).then(() => {
+      loadColumnInitial(task.state);
+      handleClose();
+    });
+  };
+
+  const handleTaskDestroy = (task) => {
+    const attributes = TaskForm.attributesToSubmit(task);
+
+    return TasksRepository.destroy(task.id, attributes).then(() => {
       loadColumnInitial(task.state);
       handleClose();
     });
@@ -120,7 +149,7 @@ const TaskBoard = () => {
   return (
     <div>
       <KanbanBoard
-        renderCard={(card) => <Task task={card} />}
+        renderCard={(card) => <Task onClick={handleOpenEditPopup} task={card} />}
         renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
         onCardDragEnd={handleCardDragEnd}
       >
@@ -130,6 +159,15 @@ const TaskBoard = () => {
         <AddIcon />
       </Fab>
       {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />}
+      {mode === MODES.EDIT && (
+        <EditPopup
+          onLoadCard={loadTask}
+          onCardDestroy={handleTaskDestroy}
+          onCardUpdate={handleTaskUpdate}
+          onClose={handleClose}
+          cardId={openedTaskId}
+        />
+      )}
     </div>
   );
 };
