@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isNil } from 'ramda';
 
-import Form from '../Form/Form';
+import Form from 'components/Form';
 
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
