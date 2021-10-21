@@ -1,17 +1,19 @@
+import '@asseinfo/react-kanban/dist/styles.css';
 import KanbanBoard from '@asseinfo/react-kanban';
 import React, { useEffect, useState } from 'react';
 import { propOr } from 'ramda';
-import '@asseinfo/react-kanban/dist/styles.css';
+
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import TaskForm from '../../forms/TaskForm';
 
+import TaskForm from 'forms/TaskForm';
 import Task from 'components/Task';
+import AddPopup from 'components/AddPopup';
+import EditPopup from 'components/EditPopup';
 import ColumnHeader from 'components/ColumnHeader';
 import TasksRepository from 'repositories/TasksRepository';
+
 import useStyles from './useStyles';
-import AddPopup from '../AddPopup/AddPopup';
-import EditPopup from '../EditPopup/EditPopup';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -32,15 +34,16 @@ const initialBoard = {
   })),
 };
 
+const MODES = {
+  ADD: 'add',
+  NONE: 'none',
+  EDIT: 'edit',
+};
+
 const TaskBoard = () => {
   const styles = useStyles();
   const [board, setBoard] = useState(initialBoard);
   const [boardCards, setBoardCards] = useState([]);
-  const MODES = {
-    ADD: 'add',
-    NONE: 'none',
-    EDIT: 'edit',
-  };
 
   const [mode, setMode] = useState(MODES.NONE);
   const [openedTaskId, setOpenedTaskId] = useState(null);
