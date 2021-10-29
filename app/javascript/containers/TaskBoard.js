@@ -17,6 +17,7 @@ import useStyles from './useStyles';
 const MODES = {
   ADD: 'add',
   NONE: 'none',
+  EDIT: 'edit',
 };
 
 const TaskBoard = () => {
