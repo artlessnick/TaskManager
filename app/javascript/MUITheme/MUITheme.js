@@ -1,12 +1,11 @@
-/* import { useState } from 'react'; */
-import * as React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Brightness7, Brightness4 } from '@material-ui/icons';
 import { blueTheme, lightTheme } from './theme';
 
 const MUITheme = ({ children }) => {
-  const [mode, setTheme] = React.useState('light');
+  const [mode, setTheme] = useState('light');
 
   const changeTheme = () => {
     setTheme((prevMode) => (prevMode === 'light' ? 'blue' : 'light'));

@@ -32,7 +32,7 @@ const tasksSlice = createSlice({
       return state;
     },
 
-    moreLoadColumnSuccess(state, { payload }) {
+    loadColumnMoreSuccess(state, { payload }) {
       const { items, meta, columnId } = payload;
       const column = state.board.columns.find(propEq('id', columnId));
 
@@ -46,29 +46,30 @@ const tasksSlice = createSlice({
   },
 });
 
-const { loadColumnSuccess, moreLoadColumnSuccess } = tasksSlice.actions;
+const { loadColumnSuccess, loadColumnMoreSuccess } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
 
 export const useTasksActions = () => {
   const dispatch = useDispatch();
 
-  const column = (state, page, perPage) =>
+  const loadColumn = (state, page = 1, perPage = 10) => {
     TasksRepository.index({
       q: { stateEq: state },
       page,
       perPage,
-    });
-
-  const loadColumn = (state, page = 1, perPage = 10) => {
-    column(state, page, perPage).then(({ data }) => {
+    }).then(({ data }) => {
       dispatch(loadColumnSuccess({ ...data, columnId: state }));
     });
   };
 
   const loadColumnMore = (state, page = 1, perPage = 10) => {
-    column(state, page, perPage).then(({ data }) => {
-      dispatch(moreLoadColumnSuccess({ ...data, columnId: state }));
+    TasksRepository.index({
+      q: { stateEq: state },
+      page,
+      perPage,
+    }).then(({ data }) => {
+      dispatch(loadColumnMoreSuccess({ ...data, columnId: state }));
     });
   };
 
