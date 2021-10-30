@@ -13,7 +13,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 
 import TaskForm from 'forms/TaskForm';
-import UserSelect from 'packs/components/UserSelect';
+import UserSelect from 'components/UserSelect';
 import TaskPresenter from 'presenters/TaskPresenter';
 
 import useStyles from './useStyles';
