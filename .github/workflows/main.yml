@@ -20,6 +20,6 @@ jobs:
           RAILS_ENV: test
         run: docker-compose --file docker-compose.ci.yml run ci
       - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@develop
+        uses: coverallsapp/github-action@master
         with:
           github-tocken: ${{ secrets.GITHUB_TOKEN }}
