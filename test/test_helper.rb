@@ -1,4 +1,13 @@
 ENV['RAILS_ENV'] ||= 'test'
+
+if ENV['CI'] == 'true'
+  require 'coveralls'
+  require 'simplecov'
+
+  SimpleCov.start
+  Coveralls.wear!
+end
+
 require_relative '../config/environment'
 require 'rails/test_help'
 
