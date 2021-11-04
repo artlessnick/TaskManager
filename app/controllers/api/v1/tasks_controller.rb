@@ -1,6 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   def index
-    tasks = Task.all.
+    tasks = Task.all.eager_load(:assignee, :author).
       ransack(ransack_params).
       result.
       page(page).
