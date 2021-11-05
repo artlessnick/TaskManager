@@ -1,0 +1,6 @@
+= simple_form_for :user, method: :patch,  url: password_reset_path(email: @user.email) do |f|
+  p
+    = f.input :password
+    = f.input :password_confirmation
+  p
+    = f.button :submit, "Confirm", class: 'mdl-button--colored'
