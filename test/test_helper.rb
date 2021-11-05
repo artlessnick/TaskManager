@@ -1,3 +1,5 @@
+require 'sidekiq/testing'
+
 ENV['RAILS_ENV'] ||= 'test'
 
 if ENV['CI'] == 'true'
