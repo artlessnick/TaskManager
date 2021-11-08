@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include PasswordResetable
+
   has_secure_password
 
   has_many :my_tasks, class_name: 'Task', foreign_key: :author_id
