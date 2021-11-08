@@ -9,7 +9,7 @@ class Web::PasswordResetsController < Web::ApplicationController
     if @user
       reset_token = @user.generate_reset_digest
 
-      UserMailer.with({ user: @user, reset_token: reset_token }).password_reset.deliver_later
+      SendPasswordResetNotificationJob.perform_async(@user.id, reset_token)
 
       flash[:info] = 'Email sent with password reset instructions'
       redirect_to(new_session_path)
