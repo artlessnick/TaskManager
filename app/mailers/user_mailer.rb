@@ -1,5 +1,6 @@
 class UserMailer < ApplicationMailer
   default from: 'noreply@taskmanager.com'
+  layout 'mailer'
 
   def task_created
     @user = params[:user]
