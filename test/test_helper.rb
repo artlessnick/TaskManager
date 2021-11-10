@@ -1,3 +1,5 @@
+require 'sidekiq/testing'
+
 ENV['RAILS_ENV'] ||= 'test'
 
 if ENV['CI'] == 'true'
@@ -7,7 +9,6 @@ if ENV['CI'] == 'true'
   SimpleCov.start
   Coveralls.wear!
 end
-
 require_relative '../config/environment'
 require 'rails/test_help'
 
@@ -22,4 +23,5 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
   include AuthHelper
+  Sidekiq::Testing.inline!
 end
