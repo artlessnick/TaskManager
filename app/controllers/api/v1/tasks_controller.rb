@@ -49,7 +49,6 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     task = Task.find(params[:id])
     task_attach_image_form = TaskAttachImageForm.new(attachment_params)
 
-
     if task_attach_image_form.invalid?
       respond_with(task_attach_image_form)
       return
