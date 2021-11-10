@@ -7,6 +7,8 @@ RUN apk update \
     && apk upgrade \
     && apk add --update --no-cache $PACKAGES
 
+RUN apk --update add imagemagick
+
 RUN gem install bundler:2.1.4
 
 RUN mkdir $RAILS_ROOT
