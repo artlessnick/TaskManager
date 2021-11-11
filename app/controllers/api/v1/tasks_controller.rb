@@ -1,6 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   def index
-    tasks = Task.all.eager_load(:assignee, :author).with_attached_image.
+    tasks = Task.all.eager_load(:assignee, :author, :image_attachment).
       ransack(ransack_params).
       result.
       page(page).
