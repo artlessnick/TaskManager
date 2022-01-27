@@ -6,6 +6,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     outline: 0,
+    overflow: 'scroll',
   },
 
   root: {
@@ -20,6 +21,15 @@ const useStyles = makeStyles(() => ({
   actions: {
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+
+  previewContainer: {
+    justifyContent: 'center',
+  },
+
+  preview: {
+    display: 'flex',
+    height: 200,
   },
 }));
 
