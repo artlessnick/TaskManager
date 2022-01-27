@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { isNil } from 'ramda';
 
 import Form from 'components/Form';
+import ImageUpload from 'components/ImageUpload';
+import TasksRepository from 'repositories/TasksRepository';
+import TaskPresenter from 'presenters/TaskPresenter';
 
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -21,9 +24,7 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
   const [errors, setErrors] = useState({});
   const styles = useStyles();
 
-  useEffect(() => {
-    onLoadCard(cardId).then(setTask);
-  }, []);
+  const imageUrl = TaskPresenter.imageUrl(task);
 
   const handleCardUpdate = () => {
     setSaving(true);
@@ -47,6 +48,19 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
       alert(`Destrucion Failed! Error: ${error.message}`);
     });
   };
+
+  const onAttachImage = (cropImage) => {
+    TasksRepository.attach_image(task, cropImage).then(({ data }) => setTask(data.task));
+  };
+
+  const onRemoveImage = () => {
+    TasksRepository.remove_image(task, imageUrl).then(({ data }) => setTask(data.task));
+  };
+
+  useEffect(() => {
+    onLoadCard(cardId).then(setTask);
+  }, []);
+
   const isLoading = isNil(task);
 
   return (
@@ -67,6 +81,18 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
             </div>
           ) : (
             <Form errors={errors} onChange={setTask} task={task} />
+          )}
+          {isNil(imageUrl) ? (
+            <div className={styles.imageUploadContainer}>
+              <ImageUpload onUpload={onAttachImage} />
+            </div>
+          ) : (
+            <div className={styles.previewContainer}>
+              <img className={styles.preview} src={imageUrl} alt="Attachment" />
+              <Button variant="contained" size="small" color="primary" onClick={onRemoveImage}>
+                Remove image
+              </Button>
+            </div>
           )}
         </CardContent>
         <CardActions className={styles.actions}>
